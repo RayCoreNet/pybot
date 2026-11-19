@@ -72,13 +72,25 @@ echo "how long should i boil an egg" | python -m pybot
 
 For a `pybot` command you can run from anywhere, install the clone with `pip install .`.
 
+## 中英双语 / Chinese and English
+
+这个 fork 在原有命令中支持基础中文对话，无须切换模式。中文规则覆盖问候、道谢、告别、帮助和会话内姓名记忆（`/reset` 会清除）。含汉字的消息会尝试中文规则；不含汉字的消息沿用原版逻辑。原版安全回复仍优先。中文知识库不等同于原版英文知识库。
+
+```sh
+git clone --branch agent/pybot-chinese-support-91cafc4c6803 https://github.com/RayCoreNet/pybot.git
+cd pybot
+printf '我叫小林\nHello\n我叫什么？\n' | python -X utf8 -m pybot -s 1
+```
+
+Use the same CLI for English and Chinese, even in the same conversation. Chinese support is rule-based, not a translation of the English knowledge base.
+
 ## What is in this repository
 
 | Path | What it holds |
 |---|---|
-| `bot/` | PyBot itself: 528 Python files and about 640,000 lines, exactly as the swarm wrote them |
+| `bot/` | PyBot itself, including this fork's bilingual routing and Chinese rules |
 | `pybot.py` | the command line shown above. It contains no chatbot logic |
-| `tests/` | tests for the command line: `python -m unittest discover -s tests` |
+| `tests/` | command-line and bilingual regression tests: `python -m unittest discover -s tests` |
 | `assets/` | the banner and the chart |
 
 Every turn, each module in `bot/modules/` may propose a reply, and an arbiter (`bot/modules/arbiter.py`) picks the one you get. The modules build on four shared parts:
